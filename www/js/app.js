@@ -1,21 +1,21 @@
-var WatchStock = React.createClass({
+var MessageInput = React.createClass({
     getInitialState: function() {
-        return {symbol: ""};
+        return {message: ''};
     },
-    watchStock: function() {
-        this.props.watchStockHandler(this.state.symbol);
-        this.setState({symbol: ''});
+    sendMessage: function() {
+        this.props.sendMessage(this.state.message);
+        this.setState({message: ''});
     },
     handleChange: function(event) {
-        this.setState({symbol: event.target.value});
+        this.setState({message: event.target.value});
     },
     render: function () {
         return (
             <div className="row">
                 <div className="input-group">
-                    <input type="text" className="form-control" placeholder="Comma separated list of stocks to watch..." value={this.state.symbol} onChange={this.handleChange} />
+                    <input type="text" className="form-control" placeholder="input..." value={this.state.message} onChange={this.handleChange} />
                     <span className="input-group-btn">
-                        <button className="btn btn-default" type="button" onClick={this.watchStock}>
+                        <button className="btn btn-default" type="button" onClick={this.sendMessage}>
                             <span className="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Send
                         </button>
                     </span>
@@ -25,7 +25,7 @@ var WatchStock = React.createClass({
     }
 });
 
-var StockRow = React.createClass({
+var MessageRow = React.createClass({
     render: function () {
       console.log(this.props.msg);
         return (
@@ -36,11 +36,11 @@ var StockRow = React.createClass({
     }
 });
 
-var StockTable = React.createClass({
+var MessageList = React.createClass({
     render: function () {
         var items = [];
         for (var i = 0; i < this.props.msgs.length; i++) {
-          items.push(<StockRow key={this.props.msgs[i]} msg={this.props.msgs[i]} />);
+          items.push(<MessageRow key={this.props.msgs[i]} msg={this.props.msgs[i]} />);
         }
         return (
             <div className="row">
@@ -75,8 +75,8 @@ var HomePage = React.createClass({
     render: function () {
         return (
             <div>
-                <StockTable msgs={this.state.msgs} />
-                <WatchStock watchStockHandler={this._sendMsg}/>
+                <MessageList msgs={this.state.msgs} />
+                <MessageInput sendMessage={this._sendMsg}/>
             </div>
         );
     }
