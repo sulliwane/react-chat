@@ -9,26 +9,28 @@ app.use(express.static(path.join(__dirname, './www')));
 var onLineUsers = [];
 
 io.on('connection', function (socket) {
+  socket.userName = 'pluto';
+
+    // listening  login with userName and will broadcast the user joined message
+    // and also the onLineUsers list.
     socket.on('login',function(userName){
       socket.userName = userName;
       onLineUsers.push(socket.userName);
-      socket.broadcast.emit('user joined',userName);
-      socket.broadcast.emit('userlist',onLineUsers);
+      socket.broadcast.emit('user joined',`${userName} joined`);
+      io.emit('userlist',onLineUsers);
     });
-    // socket.broadcast.emit('chat','someone joined');
+    // listening the chating message and broadcast to the room
     socket.on('chat', function (msg) {
         console.log('Socket %s say: %s', socket.userName,msg);
-        socket.broadcast.emit('chat',`${socket.userName} : ${msg}`);
+        io.emit('chat',`${socket.userName}:${msg}`);
     });
-    socket.on('userlist',function(){
-      socket.broadcast.emit('userlist',onLineUsers);
-    });
+    //when user left the room and
     socket.on('disconnect', function () {
       // check it
         var indexOfUser = onLineUsers.indexOf(socket.userName);
         var _tmp = onLineUsers.slice(0,indexOfUser).concat(onLineUsers.slice(indexOfUser+1));
         onLineUsers = _tmp;
-        socket.broadcast.emit('userlist',onLineUsers);
+        io.emit('userlist',onLineUsers);
         socket.broadcast.emit('chat',`${socket.userName} disconnected`);
     });
 });
