@@ -72,13 +72,26 @@ var HomePage = React.createClass({
     _sendMsg: function(msg){
       feed.sendMsg(msg);
     },
+    _handleLogin: function (userName) {
+      localStorage.setItem('uname',userName);
+    },
     render: function () {
-        return (
-            <div>
-                <MessageList msgs={this.state.msgs} />
-                <MessageInput sendMessage={this._sendMsg}/>
-            </div>
-        );
+      var userName = localStorage.uname;
+      var rows = userName && userName.length > 0 ? (
+        <div>
+          <MessageList msgs={this.state.msgs} />
+          <MessageInput sendMessage={this._sendMsg}/>
+        </div>
+      ) : (
+        <div>
+          <LoginPage onLogin={this._handleLogin} />
+        </div>
+      );
+       return (
+         <div>
+          {rows}
+         </div>
+       );
     }
 });
 
