@@ -15,8 +15,8 @@ feed = (function () {
         login: function(userName){
           socket.emit('login',userName);
         },
-        getUserList:function(){
-          socket.emit('userlist');
+        watchUserList:function(callback){
+          socket.on('userlist',callback)
         },
     };
 
