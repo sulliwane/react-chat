@@ -6,15 +6,21 @@ var express = require('express'),
 
 app.use(express.static(path.join(__dirname, './www')));
 
+var onLineUsersNumber = 0;
+
 io.on('connection', function (socket) {
-    io.emit('chat',`one User connected`);
-    // socket.join('chat room');
+    socket.on('login',function(userName){
+      onLineUsersNumber++,
+      socket.userName = userName;
+      socket.broadcast.emit('user joined',userName);
+    });
+    socket.broadcast.emit('chat','someone joined');
     socket.on('chat', function (msg) {
-        console.log('Socket %s say: %s', socket.id,msg);
-        io.emit('chat',`user ${socket.id} say: ${msg}`);
+        console.log('Socket %s say: %s', socket.userName,msg);
+        io.emit('chat',`user ${socket.userName} say: ${msg}`);
     });
     socket.on('disconnect', function () {
-        io.emit('chat',`User ${socket.id} disconnected`);
+        io.emit('chat',`User ${socket.userName} disconnected`);
     });
 });
 
