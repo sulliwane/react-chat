@@ -67,16 +67,18 @@ var HomePage = React.createClass({
             msgs.push(msg);
             this.setState({msgs:msgs,});
         }.bind(this));
-        return {msgs: msgs};
+        return {
+          msgs: msgs,
+          userName: ''
+        };
     },
     _sendMsg: function(msg){
       feed.sendMsg(msg);
     },
     _handleLogin: function (userName) {
-      localStorage.setItem('uname',userName);
     },
     render: function () {
-      var userName = localStorage.uname;
+      var userName = this.state.userName;
       var rows = userName && userName.length > 0 ? (
         <div>
           <MessageList msgs={this.state.msgs} />
