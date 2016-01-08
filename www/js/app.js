@@ -62,20 +62,31 @@ var MessageList = React.createClass({
 var HomePage = React.createClass({
     getInitialState: function() {
         var msgs = [];
+        var user_list = [
+            {"name":"super man"},
+            {"name":"不吃羊肉会抽筋"},
+            {"name":"super son"},
+            {"name":"名字不能太帅，帅到没人敢爱"},
+            {"name":"青春就是一把猪饲料"}
+        ];
         feed.onChange(function(msg) {
             console.log(msg);
             msgs.push(msg);
             this.setState({msgs:msgs,});
         }.bind(this));
-        return {msgs: msgs};
+        return {msgs: msgs, user_list: user_list};
     },
     _sendMsg: function(msg){
       feed.sendMsg(msg);
+    },
+    componentDidMount: function(){
+        set_style_init();
     },
     render: function () {
         return (
             <div>
                 <MessageList msgs={this.state.msgs} />
+                <User_list user_list={this.state.user_list}/>
                 <MessageInput sendMessage={this._sendMsg}/>
             </div>
         );
