@@ -16,6 +16,7 @@ io.on('connection', function (socket) {
     socket.on('login',function(userName){
       socket.userName = userName;
       onLineUsers.push(socket.userName);
+      socket.emit('login',userName);
       socket.broadcast.emit('user joined',`${userName} joined`);
       io.emit('userlist',onLineUsers);
     });
