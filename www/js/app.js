@@ -72,10 +72,18 @@ var HomePage = React.createClass({
           userName: ''
         };
     },
+    componentDidMount: function() {
+      feed.watchLogin(function (msg) {
+        this.setState({
+          userName: msg
+        });
+      }.bind(this));
+    },
     _sendMsg: function(msg){
       feed.sendMsg(msg);
     },
     _handleLogin: function (userName) {
+      feed.login(userName);
     },
     render: function () {
       var userName = this.state.userName;
