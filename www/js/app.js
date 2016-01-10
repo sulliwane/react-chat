@@ -62,7 +62,7 @@ var MessageList = React.createClass({
 var HomePage = React.createClass({
     getInitialState: function() {
         var msgs = [];
-        feed.onChange(function(msg) {
+        feed.watchChat(function(msg) {
             console.log(msg);
             msgs.push(msg);
             this.setState({msgs:msgs,});
