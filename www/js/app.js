@@ -67,18 +67,41 @@ var HomePage = React.createClass({
             msgs.push(msg);
             this.setState({msgs:msgs,});
         }.bind(this));
-        return {msgs: msgs};
+        return {
+          msgs: msgs,
+          userName: ''
+        };
+    },
+    componentDidMount: function() {
+      feed.watchLogin(function (msg) {
+        this.setState({
+          userName: msg
+        });
+      }.bind(this));
     },
     _sendMsg: function(msg){
       feed.sendMsg(msg);
     },
+    _handleLogin: function (userName) {
+      feed.login(userName);
+    },
     render: function () {
-        return (
-            <div>
-                <MessageList msgs={this.state.msgs} />
-                <MessageInput sendMessage={this._sendMsg}/>
-            </div>
-        );
+      var userName = this.state.userName;
+      var rows = userName && userName.length > 0 ? (
+        <div>
+          <MessageList msgs={this.state.msgs} />
+          <MessageInput sendMessage={this._sendMsg}/>
+        </div>
+      ) : (
+        <div>
+          <LoginPage onLogin={this._handleLogin} />
+        </div>
+      );
+       return (
+         <div>
+          {rows}
+         </div>
+       );
     }
 });
 
