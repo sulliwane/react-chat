@@ -67,10 +67,16 @@ var HomePage = React.createClass({
             msgs.push(msg);
             this.setState({msgs:msgs,});
         }.bind(this));
+
+        feed.watchUserList(function(msg) {
+            console.log(msg);
+            this.setState({userList:msgs});
+        }.bind(this));
+
         return {
           msgs: msgs,
           userName: '',
-          userList: new Array({name:"123"},{name:"123"})
+          userList: new Array()
         };
     },
     componentDidMount: function() {
