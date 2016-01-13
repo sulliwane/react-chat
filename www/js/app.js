@@ -69,7 +69,8 @@ var HomePage = React.createClass({
         }.bind(this));
         return {
           msgs: msgs,
-          userName: ''
+          userName: '',
+          userList: new Array({name:"123"},{name:"123"})
         };
     },
     componentDidMount: function() {
@@ -90,6 +91,7 @@ var HomePage = React.createClass({
       var rows = userName && userName.length > 0 ? (
         <div>
           <MessageList msgs={this.state.msgs} />
+          <UserList userList={this.state.userList}/>
           <MessageInput sendMessage={this._sendMsg}/>
         </div>
       ) : (
