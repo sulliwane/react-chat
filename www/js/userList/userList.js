@@ -1,7 +1,4 @@
 var UserList = React.createClass({
-    getInitialState: function() {
-        return {style_count:-1, userList: ''};
-    },
     render: function () {
         return (
             <div id="userListBox">
