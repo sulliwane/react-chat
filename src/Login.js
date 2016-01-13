@@ -1,20 +1,25 @@
-var LoginPage = React.createClass({
-  getInitialState: function() {
-    return {
+import React, {Component} from 'react';
+
+export default class Login extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       input: ''
-    }
-  },
-  _handleChange: function (event) {
+    };
+    this._handleChange = this._handleChange.bind(this);
+    this._handleSubmit = this._handleSubmit.bind(this);
+  }
+  _handleChange(e) {
     this.setState({
-      input: event.currentTarget.value
+      input: e.currentTarget.value
     });
-  },
-  _handleSubmit: function (event) {
-    event.preventDefault();
+  }
+  _handleSubmit(e) {
+    e.preventDefault();
     var userName = this.state.input.trim();
     this.props.onLogin(userName);
-  },
-  render: function() {
+  }
+  render() {
     return (
       <form className="form-inline" onSubmit={this._handleSubmit}>
         <div className="form-group">
@@ -31,4 +36,4 @@ var LoginPage = React.createClass({
       </form>
     );
   }
-});
+}
