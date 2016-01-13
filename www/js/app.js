@@ -70,7 +70,7 @@ var HomePage = React.createClass({
 
         feed.watchUserList(function(msg) {
             console.log(msg);
-            this.setState({userList:msgs});
+            this.setState({userList:msg});
         }.bind(this));
 
         return {
