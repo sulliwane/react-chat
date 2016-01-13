@@ -67,9 +67,16 @@ var HomePage = React.createClass({
             msgs.push(msg);
             this.setState({msgs:msgs,});
         }.bind(this));
+
+        feed.watchUserList(function(userList) {
+            console.log(userList);
+            this.setState({userList:userList});
+        }.bind(this));
+
         return {
           msgs: msgs,
-          userName: ''
+          userName: '',
+          userList: new Array()
         };
     },
     componentDidMount: function() {
@@ -90,6 +97,7 @@ var HomePage = React.createClass({
       var rows = userName && userName.length > 0 ? (
         <div>
           <MessageList msgs={this.state.msgs} />
+          <UserList userList={this.state.userList}/>
           <MessageInput sendMessage={this._sendMsg}/>
         </div>
       ) : (
