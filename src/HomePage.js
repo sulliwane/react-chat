@@ -8,15 +8,6 @@ export default class HomePage extends Component {
   constructor(props) {
     super(props);
     var msgs = [];
-    feed.watchChat(function (msg) {
-      console.log(msg);
-      msgs.push(msg);
-      this.setState({msgs: msgs});
-    }.bind(this));
-    feed.watchUserList(function (userList) {
-      console.log(userList);
-      this.setState({userList: userList});
-    }.bind(this));
     this.state = {
       msgs: msgs,
       userName: '',
@@ -30,6 +21,15 @@ export default class HomePage extends Component {
       this.setState({
         userName: msg
       });
+    }.bind(this));
+    feed.watchChat(function (msg) {
+      console.log(msg);
+      msgs.push(msg);
+      this.setState({msgs: msgs});
+    }.bind(this));
+    feed.watchUserList(function (userList) {
+      console.log(userList);
+      this.setState({userList: userList});
     }.bind(this));
   }
   _sendMsg(msg) {
