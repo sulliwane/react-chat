@@ -15,7 +15,13 @@ const feed = (function () {
     },
     // when onLineUsers changed ,callback
     watchUserList: function (callback) {
-      socket.on('userlist',callback);
+      socket.on('userlist', callback);
+    },
+    watchRoomList: function (callback) {
+      socket.on('roomlist', callback);
+    },
+    addRoom: function (roomName) {
+      socket.emit('addroom', roomName);
     },
     // send message to server
     sendMsg: function (msg) {
