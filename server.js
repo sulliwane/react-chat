@@ -14,14 +14,13 @@ app.use(require('webpack-dev-middleware')(compiler, {
 app.use(require('webpack-hot-middleware')(compiler));
 
 app.get('/', function (req, res) {
-  console.log('res');
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 var onLineUsers = [];
+var roomList = [ 'javascript', 'nodejs', 'reactjs', 'reactnative' ];
 
 io.on('connection', function (socket) {
-  socket.userName = 'pluto';
   // listening  login with userName and will broadcast the user joined message
   // and also the onLineUsers list.
   socket.on('login',function (userName) {
@@ -29,7 +28,13 @@ io.on('connection', function (socket) {
     onLineUsers.push(socket.userName);
     socket.emit('login',userName);
     socket.broadcast.emit('user joined',`${userName} joined`);
-    io.emit('userlist',onLineUsers);
+    socket.emit('roomlist', roomList);
+    // io.emit('userlist',onLineUsers);
+  });
+  socket.on('addroom', function (roomName) {
+    console.log(roomName);
+    roomList.push(roomName);
+    console.log(roomList);
   });
   // listening the chating message and broadcast to the room
   socket.on('chat', function (msg) {
