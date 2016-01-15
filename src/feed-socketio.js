@@ -17,10 +17,10 @@ const feed = (function () {
     watchUserList: function (callback) {
       socket.on('userlist', callback);
     },
-    watchRoomList: function (callback) {
+    watchRoomList: callback => {
       socket.on('roomlist', callback);
     },
-    addRoom: function (roomName) {
+    addRoom: roomName => {
       socket.emit('addroom', roomName);
     },
     // send message to server
