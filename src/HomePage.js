@@ -3,6 +3,7 @@ import {MessageList, MessageRow, MessageInput} from './MesaageBox';
 import Login from './Login';
 import feed from './feed-socketio';
 import UserList from './UserList';
+import RoomList from './RoomList';
 
 export default class HomePage extends Component {
   constructor(props) {
@@ -49,6 +50,7 @@ export default class HomePage extends Component {
     ) : (
       <div>
         <Login onLogin={this._handleLogin} />
+        <RoomList />
       </div>
     );
     return (
