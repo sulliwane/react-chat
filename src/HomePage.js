@@ -17,19 +17,20 @@ export default class HomePage extends Component {
     this._handleLogin = this._handleLogin.bind(this);
   }
   componentDidMount() {
+      feed.watchChat(function (msg) {
+        console.log(this.state.msgs);
+        var msgs = this.state.msgs;
+        msgs.push(msg);
+        this.setState({msgs: msgs});
+      }.bind(this));
+      feed.watchUserList(function (userList) {
+        console.log(userList);
+        this.setState({userList: userList});
+      }.bind(this));
     feed.watchLogin(function (msg) {
       this.setState({
         userName: msg
       });
-    }.bind(this));
-    feed.watchChat(function (msg) {
-      console.log(msg);
-      msgs.push(msg);
-      this.setState({msgs: msgs});
-    }.bind(this));
-    feed.watchUserList(function (userList) {
-      console.log(userList);
-      this.setState({userList: userList});
     }.bind(this));
   }
   _sendMsg(msg) {
