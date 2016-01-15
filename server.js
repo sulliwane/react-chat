@@ -13,17 +13,17 @@ app.use(require('webpack-dev-middleware')(compiler, {
 }));
 app.use(require('webpack-hot-middleware')(compiler));
 
-app.get('/', function (req, res) {
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 var onLineUsers = [];
 var roomList = [ 'javascript', 'nodejs', 'reactjs', 'reactnative' ];
 
-io.on('connection', function (socket) {
+io.on('connection', socket => {
   // listening  login with userName and will broadcast the user joined message
   // and also the onLineUsers list.
-  socket.on('login',function (userName) {
+  socket.on('login', userName => {
     socket.userName = userName;
     onLineUsers.push(socket.userName);
     socket.emit('login',userName);
@@ -31,18 +31,15 @@ io.on('connection', function (socket) {
     socket.emit('roomlist', roomList);
     // io.emit('userlist',onLineUsers);
   });
-  socket.on('addroom', function (roomName) {
-    console.log(roomName);
+  socket.on('addroom', roomName => {
     roomList.push(roomName);
-    console.log(roomList);
   });
   // listening the chating message and broadcast to the room
-  socket.on('chat', function (msg) {
-    console.log('Socket %s say: %s', socket.userName,msg);
+  socket.on('chat', msg => {
     io.emit('chat',`${socket.userName}:${msg}`);
   });
   // when user left the room and
-  socket.on('disconnect', function () {
+  socket.on('disconnect', () => {
     // check it
     var indexOfUser = onLineUsers.indexOf(socket.userName);
     var _tmp =
@@ -53,6 +50,10 @@ io.on('connection', function (socket) {
   });
 });
 
-http.listen(3000, function () {
-  console.log('listening on: 3000');
+http.listen(3000, 'localhost', err => {
+  if (err) {
+    console.error(err);
+    return;
+  }
+  console.log('Listening at http://localhost:3000');
 });
