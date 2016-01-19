@@ -12,10 +12,12 @@ export default class HomePage extends Component {
     this.state = {
       msgs: msgs,
       userName: '',
-      userList: []
+      userList: [],
+      RoomList: ["123","456"]
     };
     this._sendMsg = this._sendMsg.bind(this);
     this._handleLogin = this._handleLogin.bind(this);
+    this._addRoom = this._addRoom.bind(this);
   }
   componentDidMount() {
     let _self = this;
@@ -32,9 +34,16 @@ export default class HomePage extends Component {
     feed.watchUserList(userList => {
       _self.setState({userList: userList});
     });
+    feed.watchRoomList(RoomList => {
+        console.log(RoomList);
+      _self.setState({RoomList: RoomList});
+    });
   }
   _sendMsg(msg) {
     feed.sendMsg(msg);
+  }
+  _addRoom(roomName) {
+    feed.addRoom(roomName);
   }
   _handleLogin(userName) {
     feed.login(userName);
@@ -50,7 +59,7 @@ export default class HomePage extends Component {
     ) : (
       <div>
         <Login onLogin={this._handleLogin} />
-        <RoomList />
+        <RoomList RoomList={this.state.RoomList} _addRoom={this._addRoom}/>
       </div>
     );
     return (
