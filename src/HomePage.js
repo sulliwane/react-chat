@@ -3,7 +3,7 @@ import {MessageList, MessageRow, MessageInput} from './MesaageBox';
 import Login from './Login';
 import feed from './feed-socketio';
 import UserList from './UserList';
-
+import RoomList from './RoomList';
 export default class HomePage extends Component {
   constructor(props) {
     super(props);
@@ -11,10 +11,12 @@ export default class HomePage extends Component {
     this.state = {
       msgs: msgs,
       userName: '',
-      userList: []
+      userList: [],
+      RoomList: ["123","456"],
     };
     this._sendMsg = this._sendMsg.bind(this);
     this._handleLogin = this._handleLogin.bind(this);
+    this._addRoom = this._addRoom.bind(this);
   }
   componentDidMount() {
     let _self = this;
@@ -22,6 +24,10 @@ export default class HomePage extends Component {
       _self.setState({
         userName: msg
       });
+    });
+    feed.watchRoomList(RoomList => {
+        console.log(RoomList);
+      _self.setState({RoomList: RoomList});
     });
     feed.watchChat(msg => {
       let msgs = _self.state.msgs;
@@ -31,6 +37,15 @@ export default class HomePage extends Component {
     feed.watchUserList(userList => {
       _self.setState({userList: userList});
     });
+  }
+  _addRoom(roomName) {
+     feed.addRoom(roomName);
+   }
+   _RoomList(){
+     feed.watchRoomList(RoomList => {
+           console.log(RoomList);
+         this.setState({RoomList: RoomList});
+      });
   }
   _sendMsg(msg) {
     feed.sendMsg(msg);
@@ -43,6 +58,7 @@ export default class HomePage extends Component {
     var rows = userName && userName.length > 0 ? (
       <div>
         <MessageList msgs={this.state.msgs} />
+        <RoomList RoomList={this.state.RoomList} _addRoom={this._addRoom}/>
         <UserList userList={this.state.userList} />
         <MessageInput sendMessage={this._sendMsg}/>
       </div>
