@@ -53,13 +53,13 @@ export default class HomePage extends Component {
     var rows = userName && userName.length > 0 ? (
       <div>
         <MessageList msgs={this.state.msgs} />
+        <RoomList RoomList={this.state.RoomList} _addRoom={this._addRoom}/>
         <UserList userList={this.state.userList} />
         <MessageInput sendMessage={this._sendMsg}/>
       </div>
     ) : (
       <div>
         <Login onLogin={this._handleLogin} />
-        <RoomList RoomList={this.state.RoomList} _addRoom={this._addRoom}/>
       </div>
     );
     return (
