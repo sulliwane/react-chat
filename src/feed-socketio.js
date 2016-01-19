@@ -3,6 +3,7 @@ import io from 'socket.io-client';
 const feed = (function () {
   var socket = io();
   return {
+    // watch the chat room msg and user in/out broadcast
     watchChat: callback => {
       socket.on('chat', callback);
       socket.on('user joined',callback);
@@ -16,11 +17,9 @@ const feed = (function () {
       socket.on('userlist', callback);
     },
     watchRoomList: callback => {
-        console.log("watchRoomList");
       socket.on('roomlist', callback);
     },
     addRoom: roomName => {
-        console.log("addRoom");
       socket.emit('addroom', roomName);
     },
     // send message to server
