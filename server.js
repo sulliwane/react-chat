@@ -32,8 +32,9 @@ io.on('connection', function (socket) {
     // io.emit('userlist',onLineUsers);
   });
   socket.on('addroom', function (roomName) {
+    console.log(roomName);
     roomList.push(roomName);
-    socket.emit('roomlist', roomList);
+    console.log(roomList);
   });
   // listening the chating message and broadcast to the room
   socket.on('chat', function (msg) {
