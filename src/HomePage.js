@@ -45,6 +45,12 @@ export default class HomePage extends Component {
   _addRoom(roomName) {
     feed.addRoom(roomName);
   }
+  _RoomList(){
+      feed.watchRoomList(RoomList => {
+          console.log(RoomList);
+        this.setState({RoomList: RoomList});
+      });
+  }
   _handleLogin(userName) {
     feed.login(userName);
   }
