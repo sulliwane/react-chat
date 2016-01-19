@@ -5,20 +5,41 @@ var divStyle = {
 };
 
 export default class RoomList extends Component {
-    onClickAddRoom () {
-        console.log("onClickAddRoom");
+    constructor(props) {
+      super(props);
+      this.state = {
+        input: ''
+      };
+      this._handleChange = this._handleChange.bind(this);
+      this._onClickAddRoom = this._onClickAddRoom.bind(this);
+    }
+    _onClickAddRoom () {
+        var addRoom = this.state.input.trim();
+        this.props._addRoom(addRoom);
+    }
+    _handleChange(e) {
+      this.setState({
+        input: e.currentTarget.value
+      });
     }
     render() {
         return (
         <div id="RoomListBox">
-            <div onClick={this.onClickAddRoom}>add Room</div>
+            <input
+            type="text"
+            value={this.state.input}
+            onChange={this._handleChange}/>
+            <button onClick={this._onClickAddRoom}>add Room</button>
             <ul>
-                <li>1</li>
-                <li>2</li>
-                <li>3</li>
-                <li>4</li>
-                <li>5</li>
-                <li>6</li>
+            {
+                this.props.RoomList.map((result,index) => {
+                    return <li key={index}>
+                        <a href="#" title={result}>
+                            {result}
+                        </a>
+                    </li>;
+                })
+            }
             </ul>
         </div>
         );
